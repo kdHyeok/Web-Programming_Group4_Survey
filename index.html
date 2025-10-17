@@ -5,261 +5,255 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>교내 프로그램 추천 사용자 만족도 조사서</title>
     <style>
-        body {
-            font-family: 'Malgun Gothic', Arial, sans-serif;
-            line-height: 1.6;
+        * {
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 50%, #fd79a8 100%);
+            min-height: 100vh;
+        }
+        
+        /* 상단 배너 */
+        .banner-section {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(rgba(255,234,167,0.3), rgba(250,177,160,0.3)), url('AIDrawing_251017_84b67ffe-2af3-4cab-891b-143737b7da14_0_MiriCanvas.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-bottom: 5px solid #e17055;
+        }
+        
+        .banner-overlay {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .banner-title {
+            color: #d63031;
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .banner-subtitle {
+            color: #6c5ce7;
+            font-size: 1.1em;
+            font-weight: 500;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            margin-top: -20px;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
         }
         
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
-        }
-        
-        h2 {
-            color: #34495e;
-            border-left: 4px solid #3498db;
-            padding-left: 15px;
-            margin-top: 40px;
-        }
-        
-        h3 {
-            color: #2980b9;
-            margin-top: 30px;
+        .content-wrapper {
+            padding: 40px;
         }
         
         .intro-section {
-            background-color: #ecf0f1;
-            padding: 20px;
-            border-radius: 5px;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8cc 100%);
+            padding: 30px;
+            border-radius: 20px;
             margin-bottom: 30px;
+            border-left: 6px solid #ff7675;
+            position: relative;
+        }
+        
+        .intro-section::before {
+            content: '📋';
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 2em;
         }
         
         .privacy-section {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #fdcb6e;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .privacy-section::before {
+            content: '🔒';
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 2em;
+        }
+        
+        h2 {
+            color: #e17055;
+            border-left: 6px solid #ff7675;
+            padding-left: 20px;
+            margin: 40px 0 20px 0;
+            font-size: 1.5em;
+            background: linear-gradient(90deg, rgba(255,118,117,0.1) 0%, rgba(255,255,255,0) 100%);
+            padding: 15px 20px;
+            border-radius: 10px;
+        }
+        
+        h3 {
+            color: #74b9ff;
+            margin: 25px 0 15px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        h3::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #ff7675;
         }
         
         .question {
-            margin: 25px 0;
-            padding: 15px;
-            border-left: 3px solid #3498db;
-            background-color: #f8f9fa;
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(116,185,255,0.05) 0%, rgba(255,118,117,0.05) 100%);
+            border-radius: 15px;
+            border-left: 4px solid #74b9ff;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .question:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
         
         .question-title {
             font-weight: bold;
-            margin-bottom: 15px;
-            color: #2c3e50;
+            margin-bottom: 20px;
+            color: #2d3436;
+            font-size: 1.1em;
+            line-height: 1.5;
         }
         
         .radio-group, .checkbox-group {
-            margin: 10px 0;
+            margin: 15px 0;
         }
         
         .radio-group label, .checkbox-group label {
-            display: block;
-            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
             cursor: pointer;
-            padding: 5px 0;
+            padding: 10px 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        
+        .radio-group label:hover, .checkbox-group label:hover {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            transform: translateX(5px);
         }
         
         .radio-group input, .checkbox-group input {
-            margin-right: 10px;
+            margin-right: 12px;
+            transform: scale(1.2);
+            accent-color: #ff7675;
         }
         
         textarea {
             width: 100%;
-            min-height: 100px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
             font-family: inherit;
+            font-size: 14px;
             resize: vertical;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #74b9ff;
+            box-shadow: 0 0 0 3px rgba(116,185,255,0.2);
         }
         
         input[type="text"] {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             margin-left: 10px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #74b9ff;
+            box-shadow: 0 0 0 3px rgba(116,185,255,0.2);
         }
         
         .submit-section {
             text-align: center;
-            margin-top: 40px;
+            margin: 50px 0 30px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8cc 100%);
+            border-radius: 20px;
         }
         
         .submit-btn {
-            background-color: #3498db;
+            background: linear-gradient(135deg, #ff7675 0%, #fd79a8 100%);
             color: white;
-            padding: 15px 30px;
+            padding: 18px 40px;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255,118,117,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.5s;
+        }
+        
+        .submit-btn:hover::before {
+            left: 100%;
         }
         
         .submit-btn:hover {
-            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,118,117,0.6);
         }
         
-        .required {
-            color: #e74c3c;
-        }
-        
-        ol {
-            padding-left: 0;
-            list-style: none;
-        }
-        
-        ol li {
-            margin: 5px 0;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <form id="surveyForm" method="post" action="#">
-            
-            <h1>'교내 프로그램 추천' 사용자 만족도 조사서</h1>
-            
-            <div class="intro-section">
-                <p><strong>안녕하십니까?</strong></p>
-                
-                <p>저희는 <strong>전주대학교</strong> 컴퓨터공학과 <strong>'웹 프로그래밍'</strong> 수업을 듣고 있는 4조입니다.</p>
-                
-                <p>저희 팀은 간단한 성향 분석 테스트를 통해 사용자에게 가장 적합한 교내 활동(공모전, 심리상담, 자격증, 공부법)을 추천해주는 <strong>'교내 프로그램 추천 웹 사이트'</strong>를 개발했습니다.</p>
-                
-                <h3><strong>[설문 조사의 목적]</strong></h3>
-                <p>본 설문은 저희가 개발한 웹사이트의 사용자 경험을 다각도로 파악하고, 여러분의 소중한 피드백을 바탕으로 서비스를 개선하여 더욱 유용한 교내 정보 플랫폼으로 발전시키기 위해 진행됩니다. 여러분의 솔직하고 성의 있는 답변은 저희 프로젝트의 완성도를 높이는 데에 큰 도움이 될 것입니다.</p>
-                
-                <div class="privacy-section">
-                    <h3><strong>[개인정보 수집 및 이용 안내]</strong></h3>
-                    <p>본 조사를 통해 수집되는 정보(학년, 전공 계열 등)는 개인을 식별할 수 없는 형태로 통계 분석 목적으로만 사용됩니다. 수집된 모든 정보는 <strong>「개인정보 보호법」 제15조(개인정보의 수집·이용) 및 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」</strong>에 따라 안전하게 처리되며, 아래의 원칙을 준수할 것을 약속드립니다.</p>
-                    
-                    <ol>
-                        <li><strong>1. 수집 목적:</strong> 웹사이트 기능 개선 및 사용자 경험 분석을 위한 통계 자료 생성</li>
-                        <li><strong>2. 처리 및 보유 기간:</strong> 설문 조사 종료 후 통계 분석이 완료되는 즉시 파기</li>
-                        <li><strong>3. 제3자 제공:</strong> 수집된 정보는 법령에 근거한 경우를 제외하고, 응답자의 동의 없이 외부에 공개되거나 제3자에게 제공되지 않습니다.</li>
-                    </ol>
-                </div>
-                
-                <p><strong>설문에 참여해주셔서 대단히 감사합니다.</strong></p>
-            </div>
-
-            <h2>Part 1. 응답자 기본 정보</h2>
-            <p>응답자의 특성을 파악하여 어떤 사용자가 저희 서비스를 어떻게 생각하는지 분석하기 위한 문항입니다.</p>
-            
-            <div class="question">
-                <div class="question-title">1. 귀하의 학년은 어떻게 되십니까? <span class="required">*</span></div>
-                <div class="radio-group">
-                    <label><input type="radio" name="grade" value="1" required> 1학년</label>
-                    <label><input type="radio" name="grade" value="2" required> 2학년</label>
-                    <label><input type="radio" name="grade" value="3" required> 3학년</label>
-                    <label><input type="radio" name="grade" value="4" required> 4학년</label>
-                    <label><input type="radio" name="grade" value="5" required> 5학년</label>
-                    <label><input type="radio" name="grade" value="other" required> 기타: <input type="text" name="grade_other" placeholder="직접 입력"></label>
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-title">2. 귀하의 소속(전공)은 어느 계열에 속하십니까? <span class="required">*</span></div>
-                <div class="radio-group">
-                    <label><input type="radio" name="major" value="humanities" required> 인문/사회계열</label>
-                    <label><input type="radio" name="major" value="science" required> 자연/공학계열</label>
-                    <label><input type="radio" name="major" value="arts" required> 예체능계열</label>
-                    <label><input type="radio" name="major" value="medical" required> 의약학계열</label>
-                    <label><input type="radio" name="major" value="other" required> 기타: <input type="text" name="major_other" placeholder="직접 입력"></label>
-                </div>
-            </div>
-
-            <h2>Part 2. 웹사이트 종합 만족도 평가</h2>
-            <p>이 부분은 웹사이트의 사용 경험, 추천 결과, 개선점에 대한 종합적인 의견을 파악하기 위한 문항입니다.</p>
-
-            <div class="question">
-                <div class="question-title">3. 본 웹사이트의 전반적인 경험에 대해 얼마나 만족하십니까? <span class="required">*</span></div>
-                <div class="radio-group">
-                    <label><input type="radio" name="satisfaction" value="very_satisfied" required> 매우 만족</label>
-                    <label><input type="radio" name="satisfaction" value="satisfied" required> 만족</label>
-                    <label><input type="radio" name="satisfaction" value="dissatisfied" required> 불만족</label>
-                    <label><input type="radio" name="satisfaction" value="very_dissatisfied" required> 매우 불만족</label>
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-title">4. 위 3번 문항에서 '불만족' 또는 '매우 불만족'을 선택하셨다면, 그 이유는 무엇인가요?</div>
-                <textarea name="dissatisfaction_reason" placeholder="불만족하신 이유를 자세히 작성해 주세요."></textarea>
-            </div>
-
-            <div class="question">
-                <div class="question-title">5. 웹사이트를 이용하시면서 어떤 점이 긍정적이었나요? (다중선택 가능)</div>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="positive_aspects" value="interesting_questions"> 흥미로운 심리 테스트 질문</label>
-                    <label><input type="checkbox" name="positive_aspects" value="intuitive_process"> 직관적이고 편리한 이용 과정</label>
-                    <label><input type="checkbox" name="positive_aspects" value="clean_design"> 깔끔하고 보기 좋은 디자인</label>
-                    <label><input type="checkbox" name="positive_aspects" value="accurate_recommendation"> 나의 성향을 잘 반영한 추천 결과</label>
-                    <label><input type="checkbox" name="positive_aspects" value="helpful_utility"> 교내 활동 선택에 도움이 되는 유용성</label>
-                    <label><input type="checkbox" name="positive_aspects" value="other"> 기타: <input type="text" name="positive_other" placeholder="직접 입력"></label>
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-title">6. 추천받은 교내 프로그램 카테고리(공모전, 심리상담, 자격증, 공부법)가 본인에게 도움이 될 것이라고 생각하십니까? <span class="required">*</span></div>
-                <div class="radio-group">
-                    <label><input type="radio" name="program_helpfulness" value="very_helpful" required> 매우 그렇다</label>
-                    <label><input type="radio" name="program_helpfulness" value="helpful" required> 그렇다</label>
-                    <label><input type="radio" name="program_helpfulness" value="not_helpful" required> 아니다</label>
-                    <label><input type="radio" name="program_helpfulness" value="not_at_all" required> 전혀 아니다</label>
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-title">7. 서비스 개선을 위해 추가되었으면 하는 기능이나 아이디어가 있다면 자유롭게 작성해 주세요.</div>
-                <textarea name="improvement_suggestions" placeholder="서비스 개선을 위한 아이디어나 추가 기능에 대한 제안사항을 자유롭게 작성해 주세요."></textarea>
-            </div>
-
-            <div class="submit-section">
-                <button type="submit" class="submit-btn">설문 제출하기</button>
-            </div>
-
-        </form>
-    </div>
-
-    <script>
-        document.getElementById('surveyForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('설문 조사에 참여해 주셔서 감사합니다!\n제출된 응답은 안전하게 처리됩니다.');
-            // 실제 구현 시에는 여기에 서버로 데이터를 전송하는 코드를 추가합니다.
-        });
-
-        // 기타 항목 선택 시 텍스트 입력 필드 활성화
-        document.querySelectorAll('input[type="radio"][value="other"]').forEach(function(radio) {
-            radio.addEventListener('change', function() {
-                const textInput = this.parentNode.querySelector('input[type="text"]');
-                if (textInput) {
-                    textInput.focus();
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+        .
