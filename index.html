@@ -1,486 +1,289 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <!-- 이 파일은 '교내 프로그램 추천 웹사이트'의 사용자 만족도 조사를 위한 동적인 HTML 페이지입니다. -->
+    <!-- 목적: 사용자로부터 서비스에 대한 피드백을 수집하여 향후 개선 방향을 설정합니다. -->
+    <!-- 기능: 응답자 정보, 만족도, 의견 등을 입력받으며, 시각적 효과와 애니메이션을 통해 사용자 경험을 향상시킵니다. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>교내 프로그램 추천 사용자 만족도 조사서</title>
+    <title>'교내 프로그램 추천' 사용자 만족도 조사서</title>
+    <!-- Tailwind CSS CDN을 통해 스타일을 적용합니다. -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        /* 사용자 정의 스타일 추가 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
         body {
-            font-family: 'Malgun Gothic', 'Noto Sans KR', Arial, sans-serif;
-            line-height: 1.6;
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 50%, #fd79a8 100%);
-            min-height: 100vh;
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #fffbeb 0%, #ffedd5 50%, #fed7aa 100%);
         }
-        
-        /* 상단 배너 */
-        .banner-section {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(rgba(255,234,167,0.3), rgba(250,177,160,0.3)), url('AIDrawing_251017_84b67ffe-2af3-4cab-891b-143737b7da14_0_MiriCanvas.jpg') center/cover no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            border-bottom: 5px solid #e17055;
-        }
-        
-        .banner-overlay {
+        .survey-container {
+            max-width: 800px;
+            margin: auto;
             background: rgba(255, 255, 255, 0.9);
-            padding: 20px 30px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
         }
-        
-        .banner-title {
-            color: #d63031;
-            font-size: 2.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        .question-block {
+            opacity: 0; /* 애니메이션을 위해 초기에 숨김 */
+            transform: translateY(20px);
         }
-        
-        .banner-subtitle {
-            color: #6c5ce7;
-            font-size: 1.1em;
-            font-weight: 500;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 0;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            margin-top: -20px;
-            position: relative;
-            z-index: 2;
-            overflow: hidden;
-        }
-        
-        .content-wrapper {
-            padding: 40px;
-        }
-        
-        .intro-section {
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe8cc 100%);
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            border-left: 6px solid #ff7675;
-            position: relative;
-        }
-        
-        .intro-section::before {
-            content: '📋';
-            position: absolute;
-            top: -10px;
-            right: 20px;
-            font-size: 2em;
-        }
-        
-        .privacy-section {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-            border: 2px solid #fdcb6e;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 25px 0;
-            position: relative;
-        }
-        
-        .privacy-section::before {
-            content: '🔒';
-            position: absolute;
-            top: -10px;
-            right: 20px;
-            font-size: 2em;
-        }
-        
-        h2 {
-            color: #e17055;
-            border-left: 6px solid #ff7675;
-            padding-left: 20px;
-            margin: 40px 0 20px 0;
-            font-size: 1.5em;
-            background: linear-gradient(90deg, rgba(255,118,117,0.1) 0%, rgba(255,255,255,0) 100%);
-            padding: 15px 20px;
-            border-radius: 10px;
-        }
-        
-        h3 {
-            color: #74b9ff;
-            margin: 25px 0 15px 0;
-            position: relative;
-            padding-left: 25px;
-        }
-        
-        h3::before {
-            content: '▶';
-            position: absolute;
-            left: 0;
-            color: #ff7675;
-        }
-        
-        .question {
-            margin: 30px 0;
-            padding: 25px;
-            background: linear-gradient(135deg, rgba(116,185,255,0.05) 0%, rgba(255,118,117,0.05) 100%);
-            border-radius: 15px;
-            border-left: 4px solid #74b9ff;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .question:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-        
         .question-title {
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #2d3436;
-            font-size: 1.1em;
-            line-height: 1.5;
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
         }
-        
-        .radio-group, .checkbox-group {
-            margin: 15px 0;
-        }
-        
-        .radio-group label, .checkbox-group label {
+        .option-label {
             display: flex;
             align-items: center;
-            margin: 12px 0;
+            margin-bottom: 0.75rem;
             cursor: pointer;
-            padding: 10px 15px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.7);
+            transition: all 0.2s ease-in-out;
         }
-        
-        .radio-group label:hover, .checkbox-group label:hover {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+        .option-label:hover {
+            background-color: #fffbeb;
             transform: translateX(5px);
         }
-        
-        .radio-group input, .checkbox-group input {
-            margin-right: 12px;
-            transform: scale(1.2);
-            accent-color: #ff7675;
+        /* 라디오 및 체크박스 커스텀 색상 */
+        input[type="radio"]:checked,
+        input[type="checkbox"]:checked {
+            background-color: #f97316; /* Tailwind orange-500 */
+            border-color: #f97316;
         }
-        
-        textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 14px;
-            resize: vertical;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.9);
+        input[type="radio"]:focus,
+        input[type="checkbox"]:focus {
+            --tw-ring-color: #fb923c; /* Tailwind orange-400 */
         }
-        
-        textarea:focus {
-            outline: none;
-            border-color: #74b9ff;
-            box-shadow: 0 0 0 3px rgba(116,185,255,0.2);
+        .info-box {
+            background-color: #fffbeb; /* amber-50 */
+            border-left: 4px solid #f59e0b; /* amber-500 */
         }
-        
-        input[type="text"] {
-            padding: 8px 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            margin-left: 10px;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.9);
-        }
-        
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #74b9ff;
-            box-shadow: 0 0 0 3px rgba(116,185,255,0.2);
-        }
-        
-        .submit-section {
-            text-align: center;
-            margin: 50px 0 30px 0;
-            padding: 30px;
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe8cc 100%);
-            border-radius: 20px;
-        }
-        
-        .submit-btn {
-            background: linear-gradient(135deg, #ff7675 0%, #fd79a8 100%);
-            color: white;
-            padding: 18px 40px;
-            border: none;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255,118,117,0.4);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: all 0.5s;
-        }
-        
-        .submit-btn:hover::before {
-            left: 100%;
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255,118,117,0.6);
-        }
-        
-        .required {
-            color: #d63031;
-            font-weight: bold;
-        }
-        
-        ol {
-            padding-left: 0;
-            list-style: none;
-            counter-reset: item;
-        }
-        
-        ol li {
-            margin: 10px 0;
-            padding-left: 30px;
-            position: relative;
-            counter-increment: item;
-        }
-        
-        ol li::before {
-            content: counter(item) ".";
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: #ff7675;
-            font-weight: bold;
-            width: 25px;
-        }
-        
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .banner-section {
-                height: 200px;
+        /* 애니메이션 효과 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-            
-            .banner-title {
-                font-size: 1.6em;
-            }
-            
-            .banner-subtitle {
-                font-size: 1em;
-            }
-            
-            .container {
-                margin: 10px;
-                border-radius: 15px;
-                margin-top: -15px;
-            }
-            
-            .content-wrapper {
-                padding: 20px;
-            }
-            
-            .banner-overlay {
-                padding: 15px 20px;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-        
-        /* 아이콘 추가 */
-        .question:nth-child(1)::before { content: '👤'; position: absolute; top: 15px; right: 20px; font-size: 1.5em; }
-        .question:nth-child(2)::before { content: '🎓'; position: absolute; top: 15px; right: 20px; font-size: 1.5em; }
-        .question:nth-child(3)::before { content: '⭐'; position: absolute; top: 15px; right: 20px; font-size: 1.5em; }
-        .question:nth-child(4)::before { content: '💭'; position: absolute; top: 15px; right: 20px; font-size: 1.5em; }
-        .question:nth-child(5)::before { content: '👍'; position: absolute; top: 15px; right: 20px; font-size: 1.5em; }
-        .question:nth-child(6)::before { content: '🎯'; position: absolute; top: 15px; right: 20px; font-size: 1.5em; }
-        .question:nth-child(7)::before { content: '💡'; position: absolute; top: 15px; right: 20px; font-size: 1.5em; }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
     </style>
 </head>
-<body>
-    <!-- 상단 배너 섹션 -->
-    <div class="banner-section">
-        <div class="banner-overlay">
-            <div class="banner-title">교내 프로그램 추천</div>
-            <div class="banner-subtitle">사용자 만족도 조사서</div>
+<body class="bg-amber-50 text-stone-800">
+
+    <div class="survey-container p-8 sm:p-12 my-10 rounded-xl shadow-2xl">
+
+        <!-- 배너 이미지 -->
+        <div class="mb-8 overflow-hidden rounded-lg shadow-md">
+            <img src="AIDrawing_251017_84b67ffe-2af3-4cab-891b-143737b7da14_0_MiriCanvas.jpg" alt="교내 프로그램 추천 설문조사 배너" class="w-full h-auto max-h-72 object-cover transition-transform duration-500 hover:scale-105">
         </div>
-    </div>
 
-    <div class="container">
-        <div class="content-wrapper">
-            <form id="surveyForm" method="post" action="#">
+        <!-- 설문조사 제목 -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-orange-600">'교내 프로그램 추천' 사용자 만족도 조사서</h1>
+        </header>
+
+        <hr class="my-6 border-amber-200">
+
+        <!-- 설문조사 안내문 -->
+        <section class="mb-8 prose max-w-none">
+            <h2 class="text-xl font-semibold text-stone-700">안녕하십니까?</h2>
+            <p>
+                저희는 <strong>전주대학교</strong> 컴퓨터공학과 <strong>'웹 프로그래밍'</strong> 수업을 듣고 있는 4조입니다.
+                저희 팀은 간단한 성향 분석 테스트를 통해 사용자에게 가장 적합한 교내 활동(공모전, 심리상담, 자격증, 공부법)을 추천해주는 <strong>'교내 프로그램 추천 웹 사이트'</strong>를 개발했습니다.
+            </p>
+
+            <div class="mt-6 p-4 rounded-md info-box">
+                <h3 class="font-semibold text-lg text-amber-700">[설문 조사의 목적]</h3>
+                <p>본 설문은 저희가 개발한 웹사이트의 사용자 경험을 다각도로 파악하고, 여러분의 소중한 피드백을 바탕으로 서비스를 개선하여 더욱 유용한 교내 정보 플랫폼으로 발전시키기 위해 진행됩니다. 여러분의 솔직하고 성의 있는 답변은 저희 프로젝트의 완성도를 높이는 데에 큰 도움이 될 것입니다.</p>
+            </div>
+
+            <div class="mt-6 p-4 rounded-md info-box">
+                <h3 class="font-semibold text-lg text-amber-700">[개인정보 수집 및 이용 안내]</h3>
+                <p>본 조사를 통해 수집되는 정보(학년, 전공 계열 등)는 개인을 식별할 수 없는 형태로 통계 분석 목적으로만 사용됩니다. 수집된 모든 정보는 <strong>「개인정보 보호법」 제15조(개인정보의 수집·이용) 및 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」</strong>에 따라 안전하게 처리되며, 아래의 원칙을 준수할 것을 약속드립니다.</p>
+                <ol class="list-decimal list-inside mt-2">
+                    <li><strong>수집 목적:</strong> 웹사이트 기능 개선 및 사용자 경험 분석을 위한 통계 자료 생성</li>
+                    <li><strong>처리 및 보유 기간:</strong> 설문 조사 종료 후 통계 분석이 완료되는 즉시 파기</li>
+                    <li><strong>제3자 제공:</strong> 수집된 정보는 법령에 근거한 경우를 제외하고, 응답자의 동의 없이 외부에 공개되거나 제3자에게 제공되지 않습니다.</li>
+                </ol>
+            </div>
+            <p class="mt-6">설문에 참여해주셔서 대단히 감사합니다.</p>
+        </section>
+
+        <hr class="my-8 border-amber-200">
+
+        <!-- 설문조사 폼 시작 -->
+        <form id="surveyForm">
+            <!-- Part 1: 응답자 기본 정보 -->
+            <div class="part-1">
+                <h3 class="text-2xl font-bold mb-2 text-stone-700">Part 1. 응답자 기본 정보</h3>
+                <p class="text-gray-600 mb-6">응답자의 특성을 파악하여 어떤 사용자가 저희 서비스를 어떻게 생각하는지 분석하기 위한 문항입니다.</p>
+
+                <!-- 질문 1: 학년 -->
+                <div class="question-block">
+                    <p class="question-title">1. 귀하의 학년은 어떻게 되십니까?</p>
+                    <div class="space-y-1">
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="grade" value="1" class="mr-3 h-4 w-4"> 1학년</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="grade" value="2" class="mr-3 h-4 w-4"> 2학년</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="grade" value="3" class="mr-3 h-4 w-4"> 3학년</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="grade" value="4" class="mr-3 h-4 w-4"> 4학년</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="grade" value="5" class="mr-3 h-4 w-4"> 5학년</label>
+                        <div class="flex items-center option-label p-2 rounded-md">
+                            <input type="radio" name="grade" value="other" class="mr-3 h-4 w-4"><span class="mr-2">기타:</span>
+                            <input type="text" name="grade_other" class="border rounded p-1 flex-grow border-amber-300 focus:ring-orange-400 focus:border-orange-400">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 질문 2: 소속 -->
+                <div class="question-block">
+                    <p class="question-title">2. 귀하의 소속(전공)은 어느 계열에 속하십니까?</p>
+                     <div class="space-y-1">
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="major" value="humanities" class="mr-3 h-4 w-4"> 인문/사회계열</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="major" value="science" class="mr-3 h-4 w-4"> 자연/공학계열</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="major" value="arts" class="mr-3 h-4 w-4"> 예체능계열</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="major" value="medical" class="mr-3 h-4 w-4"> 의약학계열</label>
+                        <div class="flex items-center option-label p-2 rounded-md">
+                           <input type="radio" name="major" value="other" class="mr-3 h-4 w-4"><span class="mr-2">기타:</span>
+                           <input type="text" name="major_other" class="border rounded p-1 flex-grow border-amber-300 focus:ring-orange-400 focus:border-orange-400">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-8 border-amber-200">
+
+            <!-- Part 2: 웹사이트 종합 만족도 평가 -->
+            <div class="part-2">
+                <h3 class="text-2xl font-bold mb-2 text-stone-700">Part 2. 웹사이트 종합 만족도 평가</h3>
+                <p class="text-gray-600 mb-6">이 부분은 웹사이트의 사용 경험, 추천 결과, 개선점에 대한 종합적인 의견을 파악하기 위한 문항입니다.</p>
+
+                <!-- 질문 3: 전반적인 경험 만족도 -->
+                <div class="question-block">
+                    <p class="question-title">3. 본 웹사이트의 전반적인 경험에 대해 얼마나 만족하십니까?</p>
+                    <div class="space-y-1">
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="satisfaction" value="very_satisfied" class="mr-3 h-4 w-4"> 매우 만족</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="satisfaction" value="satisfied" class="mr-3 h-4 w-4"> 만족</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="satisfaction" value="dissatisfied" class="mr-3 h-4 w-4"> 불만족</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="satisfaction" value="very_dissatisfied" class="mr-3 h-4 w-4"> 매우 불만족</label>
+                    </div>
+                </div>
                 
-                <div class="intro-section">
-                    <p><strong>안녕하십니까?</strong></p>
-                    
-                    <p>저희는 <strong>전주대학교</strong> 컴퓨터공학과 <strong>'웹 프로그래밍'</strong> 수업을 듣고 있는 4조입니다.</p>
-                    
-                    <p>저희 팀은 간단한 성향 분석 테스트를 통해 사용자에게 가장 적합한 교내 활동(공모전, 심리상담, 자격증, 공부법)을 추천해주는 <strong>'교내 프로그램 추천 웹 사이트'</strong>를 개발했습니다.</p>
-                    
-                    <h3><strong>[설문 조사의 목적]</strong></h3>
-                    <p>본 설문은 저희가 개발한 웹사이트의 사용자 경험을 다각도로 파악하고, 여러분의 소중한 피드백을 바탕으로 서비스를 개선하여 더욱 유용한 교내 정보 플랫폼으로 발전시키기 위해 진행됩니다. 여러분의 솔직하고 성의 있는 답변은 저희 프로젝트의 완성도를 높이는 데에 큰 도움이 될 것입니다.</p>
-                    
-                    <div class="privacy-section">
-                        <h3><strong>[개인정보 수집 및 이용 안내]</strong></h3>
-                        <p>본 조사를 통해 수집되는 정보(학년, 전공 계열 등)는 개인을 식별할 수 없는 형태로 통계 분석 목적으로만 사용됩니다. 수집된 모든 정보는 <strong>「개인정보 보호법」 제15조(개인정보의 수집·이용) 및 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」</strong>에 따라 안전하게 처리되며, 아래의 원칙을 준수할 것을 약속드립니다.</p>
-                        
-                        <ol>
-                            <li><strong>수집 목적:</strong> 웹사이트 기능 개선 및 사용자 경험 분석을 위한 통계 자료 생성</li>
-                            <li><strong>처리 및 보유 기간:</strong> 설문 조사 종료 후 통계 분석이 완료되는 즉시 파기</li>
-                            <li><strong>제3자 제공:</strong> 수집된 정보는 법령에 근거한 경우를 제외하고, 응답자의 동의 없이 외부에 공개되거나 제3자에게 제공되지 않습니다.</li>
-                        </ol>
-                    </div>
-                    
-                    <p><strong>설문에 참여해주셔서 대단히 감사합니다.</strong></p>
+                <!-- 질문 4: 불만족 이유 -->
+                <div class="question-block">
+                    <p class="question-title">4. 위 3번 문항에서 '불만족' 또는 '매우 불만족'을 선택하셨다면, 그 이유는 무엇인가요?</p>
+                    <textarea name="dissatisfaction_reason" rows="4" class="w-full border rounded p-2 border-amber-300 focus:ring-orange-400 focus:border-orange-400 transition" placeholder="자세한 이유를 알려주시면 서비스 개선에 큰 도움이 됩니다."></textarea>
                 </div>
 
-                <h2>Part 1. 응답자 기본 정보</h2>
-                <p>응답자의 특성을 파악하여 어떤 사용자가 저희 서비스를 어떻게 생각하는지 분석하기 위한 문항입니다.</p>
-                
-                <div class="question">
-                    <div class="question-title">1. 귀하의 학년은 어떻게 되십니까? <span class="required">*</span></div>
-                    <div class="radio-group">
-                        <label><input type="radio" name="grade" value="1" required> 1학년</label>
-                        <label><input type="radio" name="grade" value="2" required> 2학년</label>
-                        <label><input type="radio" name="grade" value="3" required> 3학년</label>
-                        <label><input type="radio" name="grade" value="4" required> 4학년</label>
-                        <label><input type="radio" name="grade" value="5" required> 5학년</label>
-                        <label><input type="radio" name="grade" value="other" required> 기타: <input type="text" name="grade_other" placeholder="직접 입력"></label>
+                <!-- 질문 5: 긍정적인 점 -->
+                <div class="question-block">
+                    <p class="question-title">5. 웹사이트를 이용하시면서 어떤 점이 긍정적이었나요? (다중선택 가능)</p>
+                     <div class="space-y-1">
+                        <label class="option-label p-2 rounded-md"><input type="checkbox" name="positive_points" value="test_questions" class="mr-3 h-4 w-4 rounded"> 흥미로운 심리 테스트 질문</label>
+                        <label class="option-label p-2 rounded-md"><input type="checkbox" name="positive_points" value="ux_ui" class="mr-3 h-4 w-4 rounded"> 직관적이고 편리한 이용 과정</label>
+                        <label class="option-label p-2 rounded-md"><input type="checkbox" name="positive_points" value="design" class="mr-3 h-4 w-4 rounded"> 깔끔하고 보기 좋은 디자인</label>
+                        <label class="option-label p-2 rounded-md"><input type="checkbox" name="positive_points" value="result_accuracy" class="mr-3 h-4 w-4 rounded"> 나의 성향을 잘 반영한 추천 결과</label>
+                        <label class="option-label p-2 rounded-md"><input type="checkbox" name="positive_points" value="usefulness" class="mr-3 h-4 w-4 rounded"> 교내 활동 선택에 도움이 되는 유용성</label>
+                        <div class="flex items-center option-label p-2 rounded-md">
+                             <input type="checkbox" name="positive_points" value="other" class="mr-3 h-4 w-4 rounded"><span class="mr-2">기타:</span>
+                             <input type="text" name="positive_points_other" class="border rounded p-1 flex-grow border-amber-300 focus:ring-orange-400 focus:border-orange-400">
+                        </div>
                     </div>
                 </div>
 
-                <div class="question">
-                    <div class="question-title">2. 귀하의 소속(전공)은 어느 계열에 속하십니까? <span class="required">*</span></div>
-                    <div class="radio-group">
-                        <label><input type="radio" name="major" value="humanities" required> 인문/사회계열</label>
-                        <label><input type="radio" name="major" value="science" required> 자연/공학계열</label>
-                        <label><input type="radio" name="major" value="arts" required> 예체능계열</label>
-                        <label><input type="radio" name="major" value="medical" required> 의약학계열</label>
-                        <label><input type="radio" name="major" value="other" required> 기타: <input type="text" name="major_other" placeholder="직접 입력"></label>
+                <!-- 질문 6: 추천 결과 도움 여부 -->
+                <div class="question-block">
+                    <p class="question-title">6. 추천받은 교내 프로그램 카테고리가 본인에게 도움이 될 것이라고 생각하십니까?</p>
+                    <div class="space-y-1">
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="helpfulness" value="very_helpful" class="mr-3 h-4 w-4"> 매우 그렇다</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="helpfulness" value="helpful" class="mr-3 h-4 w-4"> 그렇다</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="helpfulness" value="not_helpful" class="mr-3 h-4 w-4"> 아니다</label>
+                        <label class="option-label p-2 rounded-md"><input type="radio" name="helpfulness" value="not_at_all_helpful" class="mr-3 h-4 w-4"> 전혀 아니다</label>
                     </div>
                 </div>
 
-                <h2>Part 2. 웹사이트 종합 만족도 평가</h2>
-                <p>이 부분은 웹사이트의 사용 경험, 추천 결과, 개선점에 대한 종합적인 의견을 파악하기 위한 문항입니다.</p>
-
-                <div class="question">
-                    <div class="question-title">3. 본 웹사이트의 전반적인 경험에 대해 얼마나 만족하십니까? <span class="required">*</span></div>
-                    <div class="radio-group">
-                        <label><input type="radio" name="satisfaction" value="very_satisfied" required> 매우 만족</label>
-                        <label><input type="radio" name="satisfaction" value="satisfied" required> 만족</label>
-                        <label><input type="radio" name="satisfaction" value="dissatisfied" required> 불만족</label>
-                        <label><input type="radio" name="satisfaction" value="very_dissatisfied" required> 매우 불만족</label>
-                    </div>
+                <!-- 질문 7: 개선점 제안 -->
+                <div class="question-block">
+                    <p class="question-title">7. 서비스 개선을 위해 추가되었으면 하는 기능이나 아이디어가 있다면 자유롭게 작성해 주세요.</p>
+                    <textarea name="improvement_ideas" rows="4" class="w-full border rounded p-2 border-amber-300 focus:ring-orange-400 focus:border-orange-400 transition" placeholder="어떤 아이디어든 환영합니다!"></textarea>
                 </div>
+            </div>
 
-                <div class="question">
-                    <div class="question-title">4. 위 3번 문항에서 '불만족' 또는 '매우 불만족'을 선택하셨다면, 그 이유는 무엇인가요?</div>
-                    <textarea name="dissatisfaction_reason" placeholder="불만족하신 이유를 자세히 작성해 주세요."></textarea>
-                </div>
-
-                <div class="question">
-                    <div class="question-title">5. 웹사이트를 이용하시면서 어떤 점이 긍정적이었나요? (다중선택 가능)</div>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="positive_aspects" value="interesting_questions"> 흥미로운 심리 테스트 질문</label>
-                        <label><input type="checkbox" name="positive_aspects" value="intuitive_process"> 직관적이고 편리한 이용 과정</label>
-                        <label><input type="checkbox" name="positive_aspects" value="clean_design"> 깔끔하고 보기 좋은 디자인</label>
-                        <label><input type="checkbox" name="positive_aspects" value="accurate_recommendation"> 나의 성향을 잘 반영한 추천 결과</label>
-                        <label><input type="checkbox" name="positive_aspects" value="helpful_utility"> 교내 활동 선택에 도움이 되는 유용성</label>
-                        <label><input type="checkbox" name="positive_aspects" value="other"> 기타: <input type="text" name="positive_other" placeholder="직접 입력"></label>
-                    </div>
-                </div>
-
-                <div class="question">
-                    <div class="question-title">6. 추천받은 교내 프로그램 카테고리(공모전, 심리상담, 자격증, 공부법)가 본인에게 도움이 될 것이라고 생각하십니까? <span class="required">*</span></div>
-                    <div class="radio-group">
-                        <label><input type="radio" name="program_helpfulness" value="very_helpful" required> 매우 그렇다</label>
-                        <label><input type="radio" name="program_helpfulness" value="helpful" required> 그렇다</label>
-                        <label><input type="radio" name="program_helpfulness" value="not_helpful" required> 아니다</label>
-                        <label><input type="radio" name="program_helpfulness" value="not_at_all" required> 전혀 아니다</label>
-                    </div>
-                </div>
-
-                <div class="question">
-                    <div class="question-title">7. 서비스 개선을 위해 추가되었으면 하는 기능이나 아이디어가 있다면 자유롭게 작성해 주세요.</div>
-                    <textarea name="improvement_suggestions" placeholder="서비스 개선을 위한 아이디어나 추가 기능에 대한 제안사항을 자유롭게 작성해 주세요."></textarea>
-                </div>
-
-                <div class="submit-section">
-                    <button type="submit" class="submit-btn">✨ 설문 제출하기 ✨</button>
-                </div>
-
-            </form>
+            <!-- 제출 버튼 -->
+            <div class="text-center mt-10">
+                <button id="submitBtn" type="submit" class="bg-orange-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center mx-auto">
+                    <span class="btn-text">설문 완료 및 제출하기</span>
+                    <svg class="animate-spin h-5 w-5 ml-3 text-white hidden btn-loader" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+            </div>
+        </form>
+        
+        <!-- 제출 완료 메시지 (초기에는 숨김) -->
+        <div id="thankYouMessage" class="hidden text-center mt-10 p-8 bg-orange-100 text-orange-800 rounded-lg">
+            <h2 class="text-2xl font-bold">소중한 의견 감사합니다!</h2>
+            <p class="mt-2">제출해주신 내용은 서비스 개선에 큰 도움이 될 것입니다.</p>
         </div>
     </div>
 
     <script>
-        document.getElementById('surveyForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // 제출 버튼에 로딩 효과 추가
-            const submitBtn = document.querySelector('.submit-btn');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '📤 제출 중...';
-            submitBtn.disabled = true;
-            
-            // 2초 후 완료 메시지
-            setTimeout(() => {
-                alert('🎉 설문 조사에 참여해 주셔서 감사합니다!\n제출된 응답은 안전하게 처리됩니다.');
-                submitBtn.innerHTML = '✅ 제출 완료!';
-                
-                // 3초 후 원래 상태로 복원
+        // 이 스크립트는 설문조사 폼의 제출 이벤트 처리 및 UI 애니메이션을 담당합니다.
+        document.addEventListener('DOMContentLoaded', () => {
+            // 질문 항목들이 순차적으로 나타나는 애니메이션을 적용합니다.
+            const questions = document.querySelectorAll('.question-block');
+            questions.forEach((question, index) => {
                 setTimeout(() => {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }, 3000);
+                    question.classList.add('animate-fade-in-up');
+                }, index * 150); // 0.15초 간격으로 질문이 나타납니다.
+            });
+        });
+
+        const surveyForm = document.getElementById('surveyForm');
+        const thankYouMessage = document.getElementById('thankYouMessage');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoader = submitBtn.querySelector('.btn-loader');
+
+        surveyForm.addEventListener('submit', function(event) {
+            // 폼의 기본 제출 동작(페이지 새로고침)을 막습니다.
+            event.preventDefault();
+            
+            // 제출 버튼 로딩 상태로 변경
+            btnText.textContent = '📤 제출 중...';
+            btnLoader.classList.remove('hidden');
+            submitBtn.disabled = true;
+
+            // 2초 후, 제출 완료 처리 (실제 서버 통신을 시뮬레이션)
+            setTimeout(() => {
+                // 폼을 숨기고 감사 메시지를 표시합니다.
+                surveyForm.classList.add('hidden');
+                thankYouMessage.classList.remove('hidden');
+                thankYouMessage.classList.add('animate-fade-in-up'); // 감사 메시지에도 애니메이션 적용
+                
+                // 페이지 상단으로 스크롤하여 사용자가 메시지를 바로 볼 수 있게 합니다.
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 2000);
         });
 
-        // 기타 항목 선택 시 텍스트 입력 필드 활성화
-        document.querySelectorAll('input[type="radio"][value="other"]').forEach(function(radio) {
-            radio.addEventListener('change', function() {
-                const textInput = this.parentNode.querySelector('input[type="text"]');
-                if (textInput) {
-                    textInput.focus();
+        // '기타' 옵션 선택 시 텍스트 입력란에 자동으로 포커스를 주는 기능
+        document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+            input.addEventListener('change', (event) => {
+                const parentLabel = event.target.closest('.option-label, .flex');
+                if (event.target.value === 'other') {
+                    const textInput = parentLabel.querySelector('input[type="text"]');
+                    if (textInput && event.target.checked) {
+                        textInput.focus();
+                    }
                 }
             });
         });
-
-        // 부드러운 스크롤 효과
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
     </script>
+
 </body>
 </html>
+
